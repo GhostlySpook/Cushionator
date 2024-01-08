@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using WindowsInput;
 using WindowsInput.Native;
@@ -31,6 +32,8 @@ namespace Cushionator
         private const string SOUND_PATH_WHOOPIE_PLUS_4 = @".\Resources\whoopie+4.wav";
         private const string SOUND_PATH_WHOOPIE_PLUS_5 = @".\Resources\whoopie+5.wav";
 
+        private const string SOUND_PATH_WHOOPIE_REVERB = @".\Resources\whoopie_reverb.wav";
+
         System.Media.SoundPlayer player_duck;
         System.Media.SoundPlayer player_banana;
         System.Media.SoundPlayer player_bonk;
@@ -46,6 +49,8 @@ namespace Cushionator
         System.Media.SoundPlayer player_whoopie_plus_3;
         System.Media.SoundPlayer player_whoopie_plus_4;
         System.Media.SoundPlayer player_whoopie_plus_5;
+
+        System.Media.SoundPlayer player_whoopie_loud;
 
         private String[] small_whoopie_array =
         {
@@ -83,6 +88,7 @@ namespace Cushionator
         };
 
         InputSimulator sim;
+        bool canShow = true;
 
         public Form1()
         {
@@ -102,6 +108,8 @@ namespace Cushionator
             player_whoopie_plus_3 = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE_PLUS_3);
             player_whoopie_plus_4 = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE_PLUS_4);
             player_whoopie_plus_5 = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE_PLUS_5);
+
+            player_whoopie_loud = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE_REVERB);
 
             numberPlayers = new System.Media.SoundPlayer[10];
             for(int i = 0; i < numberPlayers.Length; i++)
@@ -261,8 +269,38 @@ namespace Cushionator
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            if (canShow)
+            {
+                Show();
+                player_duck.Play();
+                notifyIcon1.Visible = false;
+            }
+        }
+
+        private void revealToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             Show();
+            player_duck.Play();
             notifyIcon1.Visible = false;
+        }
+
+        private void selfDestructToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Create a timer with a two second interval.
+            System.Timers.Timer aTimer = new System.Timers.Timer(3000);
+            aTimer.Elapsed += closeFormEvent;
+
+            player_whoopie_loud.Play();
+
+            aTimer.Enabled = true;
+            canShow = false;
+            contextMenuStrip1.Enabled = false;
+            //Close();
+        }
+
+        private void closeFormEvent(object sender, ElapsedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
