@@ -70,12 +70,12 @@
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 33.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(335, 156);
+            this.label2.Location = new System.Drawing.Point(335, 130);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(698, 347);
+            this.label2.Size = new System.Drawing.Size(698, 416);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Your computer has been whoopromised by the evil villainess Moony!\r\n\r\nThe keyboard" +
-    " is now a whoopie cushion!";
+            this.label2.Text = "Your computer has been whoopromised by the evil villainess Moony!\r\n\r\nYour letter " +
+    "keys became whoopie cushions!\r\n\r\nAnd your caps lock is inversed!\r\n";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // Form1
@@ -83,10 +83,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1045, 574);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.button1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
