@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace Cushionator
 {
@@ -80,6 +82,8 @@ namespace Cushionator
             /*Space col*/ new Keys[] { Keys.Space/*, Keys.Enter, Keys.RShiftKey, Keys.RControlKey*/ }
         };
 
+        InputSimulator sim;
+
         public Form1()
         {
             player_duck = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_DUCK);
@@ -119,6 +123,9 @@ namespace Cushionator
                     keyHandlers.Add(ghk);
                 }
             }
+
+            //3 Get keyboard simulator
+            sim = new InputSimulator();
 
             InitializeComponent();
 
@@ -214,7 +221,8 @@ namespace Cushionator
                 {
                     KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
                     found.Unregister();
-                    SendKeys.SendWait("+{" + (char)keyId + "}");
+                    sim.Keyboard.KeyPress((VirtualKeyCode)keyId);
+                    //SendKeys.SendWait("+{" + (char)keyId + "}");
                     found.Register();
                 }
 
