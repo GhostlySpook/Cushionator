@@ -16,6 +16,8 @@ namespace Cushionator
         private const string SOUND_PATH_DUCK = @".\Resources\duck.wav";
         private const string SOUND_PATH_BANANA = @".\Resources\banana.wav";
         private const string SOUND_PATH_BONK = @".\Resources\bonk.wav";
+        private const string SOUND_PATH_BOOM = @".\Resources\boom.wav";
+
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_3 = @".\Resources\whoopie-3.wav";
@@ -27,10 +29,11 @@ namespace Cushionator
         private const string SOUND_PATH_WHOOPIE_PLUS_4 = @".\Resources\whoopie+4.wav";
         private const string SOUND_PATH_WHOOPIE_PLUS_5 = @".\Resources\whoopie+5.wav";
 
-
         System.Media.SoundPlayer player_duck;
         System.Media.SoundPlayer player_banana;
         System.Media.SoundPlayer player_bonk;
+        System.Media.SoundPlayer player_boom;
+
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
         System.Media.SoundPlayer player_whoopie_minus_3;
@@ -42,29 +45,46 @@ namespace Cushionator
         System.Media.SoundPlayer player_whoopie_plus_4;
         System.Media.SoundPlayer player_whoopie_plus_5;
 
+        private String[] small_whoopie_array =
+        {
+            @".\Resources\small_whoopie+5.wav",
+            @".\Resources\small_whoopie-4.wav",
+            @".\Resources\small_whoopie-3.wav",
+            @".\Resources\small_whoopie-2.wav",
+            @".\Resources\small_whoopie-1.wav",
+            @".\Resources\small_whoopie.wav",
+            @".\Resources\small_whoopie+1.wav",
+            @".\Resources\small_whoopie+2.wav",
+            @".\Resources\small_whoopie+3.wav",
+            @".\Resources\small_whoopie+4.wav"
+        };
+
+        private System.Media.SoundPlayer[] numberPlayers;
+
         private List<KeyHandler> keyHandlers;
         private Keys[][] keyArray = new Keys[][] {
             /*Esc col*/ /*new Keys[] { Keys.Escape, Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin },*/
-            /*1 col*/ new Keys[] { /*Keys.D1,*/ Keys.Q, Keys.A, Keys.Z/*, Keys.Alt */},
-            /*2 col*/ new Keys[] { /*Keys.D2,*/ Keys.W, Keys.S, Keys.X },
-            /*3 col*/ new Keys[] { /*Keys.D3,*/ Keys.E, Keys.D, Keys.C },
-            /*4 col*/ new Keys[] { /*Keys.D4,*/ Keys.R, Keys.F, Keys.V },
-            /*5 col*/ new Keys[] { /*Keys.D5,*/ Keys.T, Keys.G, Keys.B },
-            /*6 col*/ new Keys[] { /*Keys.D6,*/ Keys.Y, Keys.H, Keys.N },
-            /*7 col*/ new Keys[] { /*Keys.D7,*/ Keys.U, Keys.J, Keys.M },
-            /*8 col*/ new Keys[] { /*Keys.D8,*/ Keys.I, Keys.K/*, Keys.Oemcomma, Keys.RMenu*/ },
-            /*9 col*/ new Keys[] { /*Keys.D9,*/ Keys.O, Keys.L/*, Keys.OemPeriod*/ },
-            /*0 col*/ new Keys[] { /*Keys.D0,*/ Keys.P/*, Keys.OemMinus*/ },
+            /*1 col*/ new Keys[] { Keys.D1, Keys.Q, Keys.A, Keys.Z/*, Keys.Alt */},
+            /*2 col*/ new Keys[] { Keys.D2, Keys.W, Keys.S, Keys.X },
+            /*3 col*/ new Keys[] { Keys.D3, Keys.E, Keys.D, Keys.C },
+            /*4 col*/ new Keys[] { Keys.D4, Keys.R, Keys.F, Keys.V },
+            /*5 col*/ new Keys[] { Keys.D5, Keys.T, Keys.G, Keys.B },
+            /*6 col*/ new Keys[] { Keys.D6, Keys.Y, Keys.H, Keys.N },
+            /*7 col*/ new Keys[] { Keys.D7, Keys.U, Keys.J, Keys.M },
+            /*8 col*/ new Keys[] { Keys.D8, Keys.I, Keys.K/*, Keys.Oemcomma, Keys.RMenu*/ },
+            /*9 col*/ new Keys[] { Keys.D9, Keys.O, Keys.L/*, Keys.OemPeriod*/ },
+            /*0 col*/ new Keys[] { Keys.D0, Keys.P/*, Keys.OemMinus*/ },
             /*' col*/ /*new Keys[] { Keys.Oemtilde, Keys.OemOpenBrackets },*/
             /*¿ col*/ /*new Keys[] { Keys.OemQuestion, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu },*/
-            /*Backspace col*/ /*new Keys[] { Keys.Back, Keys.Enter, Keys.RShiftKey, Keys.RControlKey },*/
-            /*Space col*/ /*new Keys[] { Keys.Space/*, Keys.Enter, Keys.RShiftKey, Keys.RControlKey }*/
+            /*Backspace col*/ new Keys[] { Keys.Back/*, Keys.Enter, Keys.RShiftKey, Keys.RControlKey*/ },
+            /*Space col*/ new Keys[] { Keys.Space/*, Keys.Enter, Keys.RShiftKey, Keys.RControlKey*/ }
         };
 
         public Form1()
         {
             player_duck = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_DUCK);
             player_banana = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BANANA);
+            player_boom = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOM);
 
             //TO DO Add hooks for every key on the keyboard
             //1 - Define whoopie sounds
@@ -79,9 +99,13 @@ namespace Cushionator
             player_whoopie_plus_4 = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE_PLUS_4);
             player_whoopie_plus_5 = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE_PLUS_5);
 
-            player_bonk = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BONK);
+            numberPlayers = new System.Media.SoundPlayer[10];
+            for(int i = 0; i < numberPlayers.Length; i++)
+            {
+                numberPlayers[i] = new System.Media.SoundPlayer(soundLocation: small_whoopie_array[i]);
+            }
 
-            //2 - C
+            player_bonk = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BONK);
 
             //3 - Add hooks to normal keys from a-z 0-9
             keyHandlers = new List<KeyHandler>();
@@ -122,6 +146,7 @@ namespace Cushionator
 
                 Keys keyId = (Keys)m.WParam;
 
+                //Make sound depending of letter
                 switch (keyId)
                 {
                     case Keys.Q:
@@ -170,20 +195,56 @@ namespace Cushionator
                     case Keys.P:
                         player_whoopie_plus_5.Play();
                         break;
+                    case Keys.Back:
+                        player_bonk.Play();
+                        break;
+                    case Keys.Space:
+                        player_boom.Play();
+                        break;
+                }
+
+                //Make sound depending of number
+                if((int)keyId >= 48 && (int)keyId <= 57)
+                {
+                    int numToPlay = (int)keyId - 48;
+                    Console.WriteLine("Pos: " + numToPlay);
+                    numberPlayers[numToPlay].Play();
                 }
 
                 //If it is a letter
                 if ((int)keyId >= 65 && (int)keyId <= 90)
                 {
+                    KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
+                    found.Unregister();
                     SendKeys.SendWait("+{" + (char)keyId + "}");
+                    found.Register();
                 }
                 //TODO Handle numbers
+                //Make sound depending of number
+                if ((int)keyId >= 48 && (int)keyId <= 57)
+                {
+                    KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
+                    found.Unregister();
+                    SendKeys.SendWait("+{" + (char)keyId + "}");
+                    found.Register();
+                }
 
                 //Handle space
-                /*else if((int)keyId == (int)Keys.Back)
+                else if ((int)keyId == (int)Keys.Space)
                 {
-                    SendKeys.SendWait(@"{BACKSPACE}");
-                }*/
+                    KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
+                    found.Unregister();
+                    SendKeys.SendWait(" ");
+                    found.Register();
+                }
+
+                else if((int)keyId == (int)Keys.Back)
+                {
+                    KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
+                    found.Unregister();
+                    SendKeys.SendWait("{BACKSPACE}");
+                    found.Register();
+                }
 
             }
             base.WndProc(ref m);
