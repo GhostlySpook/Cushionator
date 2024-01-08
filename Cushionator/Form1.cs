@@ -140,7 +140,9 @@ namespace Cushionator
         private void button1_Click(object sender, EventArgs e)
         {
             player_duck.Play();
-            this.WindowState = FormWindowState.Minimized;
+            //this.WindowState = FormWindowState.Minimized;
+            Hide();
+            notifyIcon1.Visible = true;
         }
 
         protected override void WndProc(ref Message m)
@@ -255,6 +257,12 @@ namespace Cushionator
 
             }
             base.WndProc(ref m);
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            notifyIcon1.Visible = false;
         }
     }
 }
