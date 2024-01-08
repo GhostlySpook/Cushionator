@@ -107,7 +107,7 @@ namespace Cushionator
 
             player_bonk = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BONK);
 
-            //3 - Add hooks to normal keys from a-z 0-9
+            //2 - Add hooks to normal keys from a-z 0-9
             keyHandlers = new List<KeyHandler>();
 
             for(int i = 0; i < keyArray.Length; i++)
@@ -119,8 +119,6 @@ namespace Cushionator
                     keyHandlers.Add(ghk);
                 }
             }
-
-            //TO DO Remove test hook
 
             InitializeComponent();
 
@@ -135,7 +133,7 @@ namespace Cushionator
         private void button1_Click(object sender, EventArgs e)
         {
             player_duck.Play();
-            //this.WindowState = FormWindowState.Minimized;
+            this.WindowState = FormWindowState.Minimized;
         }
 
         protected override void WndProc(ref Message m)
@@ -219,7 +217,7 @@ namespace Cushionator
                     SendKeys.SendWait("+{" + (char)keyId + "}");
                     found.Register();
                 }
-                //TODO Handle numbers
+
                 //Make sound depending of number
                 if ((int)keyId >= 48 && (int)keyId <= 57)
                 {
@@ -238,6 +236,7 @@ namespace Cushionator
                     found.Register();
                 }
 
+                //Handle backspace
                 else if((int)keyId == (int)Keys.Back)
                 {
                     KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
