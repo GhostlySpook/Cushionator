@@ -39,6 +39,13 @@ namespace Cushionator
         private const string SOUND_PATH_BOOWOMP = @".\Resources\boowomp.wav";
         private const string SOUND_PATH_STOP = @".\Resources\stop.wav";
 
+        private const string SOUND_PATH_NOSE = @".\Resources\nose.wav";
+        private const string SOUND_PATH_OOF = @".\Resources\oof.wav";
+        private const string SOUND_PATH_TADA = @".\Resources\tada.wav";
+        private const string SOUND_PATH_LEGO = @".\Resources\lego.wav";
+        private const string SOUND_PATH_SMASH = @".\Resources\smash.wav";
+        private const string SOUND_PATH_POP = @".\Resources\pop.wav";
+
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_3 = @".\Resources\whoopie-3.wav";
@@ -70,6 +77,12 @@ namespace Cushionator
         System.Media.SoundPlayer player_rizz;
         System.Media.SoundPlayer player_boowomp;
         System.Media.SoundPlayer player_stop;
+        System.Media.SoundPlayer player_nose;
+        System.Media.SoundPlayer player_pop;
+        System.Media.SoundPlayer player_oof;
+        System.Media.SoundPlayer player_tada;
+        System.Media.SoundPlayer player_lego;
+        System.Media.SoundPlayer player_smash;
 
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
@@ -114,7 +127,7 @@ namespace Cushionator
             /*9 col*/ new Keys[] { Keys.D9, Keys.O, Keys.L, Keys.OemPeriod },
             /*0 col*/ new Keys[] { Keys.D0, Keys.P/*, Keys.OemMinus*/ },
             /*' col*/ new Keys[] { /*Keys.Oemtilde,*/Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown },
-            /*¿ col*/ new Keys[] { /*Keys.OemQuestion*//*, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu*/ },
+            /*¿ col*/ new Keys[] { Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Decimal/*Keys.OemQuestion*//*, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu*/ },
             /*Backspace col*/ new Keys[] { Keys.Back, Keys.Enter, Keys.PrintScreen, Keys.Pause/*, Keys.RShiftKey, Keys.RControlKey*/ },
             /*Space col*/ new Keys[] { Keys.Space, Keys.OemMinus, Keys.Oemplus/*, Keys.RShiftKey, Keys.RControlKey*/ }
         };
@@ -141,6 +154,12 @@ namespace Cushionator
             player_rizz = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_RIZZ);
             player_boowomp = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOWOMP);
             player_stop = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_STOP);
+            player_oof = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_OOF);
+            player_tada = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_TADA);
+            player_lego = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_LEGO);
+            player_smash = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_SMASH);
+            player_pop = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_POP);
+            player_nose = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_NOSE);
 
             //1 - Define whoopie sounds
             player_whoopie = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE);
@@ -313,7 +332,22 @@ namespace Cushionator
                     case Keys.PageDown:
                         player_bark.Play();
                         break;
-                    }
+                    case Keys.Add:
+                        player_pop.Play();
+                        break;
+                    case Keys.Subtract:
+                        player_oof.Play();
+                        break;
+                    case Keys.Multiply:
+                        player_tada.Play();
+                        break;
+                    case Keys.Divide:
+                        player_lego.Play();
+                        break;
+                    case Keys.Decimal: 
+                        player_smash.Play();
+                        break;
+                 }
 
                 //Make sound depending of number
                 if((int)keyId >= 48 && (int)keyId <= 57)
@@ -337,7 +371,7 @@ namespace Cushionator
                 else
                 {
                     KeyHandler found;
-                    Keys[] otherKeys = { Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Pause, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
+                    Keys[] otherKeys = { Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Pause, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
 
                     if(Array.Find(otherKeys, x => x == keyId) != 0)
                     {
@@ -413,6 +447,26 @@ namespace Cushionator
 
                             case Keys.PageDown:
                                 keyToSend = "{PGDN}";
+                                break;
+
+                            case Keys.Add:
+                                keyToSend = "{ADD}";
+                                break;
+
+                            case Keys.Subtract:
+                                keyToSend = "{SUBTRACT}";
+                                break;
+
+                            case Keys.Multiply:
+                                keyToSend = "{MULTIPLY}";
+                                break;
+
+                            case Keys.Divide:
+                                keyToSend = "{DIVIDE}";
+                                break;
+
+                            case Keys.Decimal:
+                                keyToSend = ".";
                                 break;
                         }
 
