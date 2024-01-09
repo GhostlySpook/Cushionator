@@ -168,7 +168,6 @@ namespace Cushionator
             .AddText("Mwahahahaha!")
                 .AddText("The cushionator has taken hold of your notification tray! So sneaky!")
                 .AddAppLogoOverride(new Uri(imageUri))
-                //.AddHeroImage(new Uri(imageUri))
                 .Show();
         }
 
@@ -176,7 +175,7 @@ namespace Cushionator
         {
             if (m.Msg == 0x0312 /*WM_HOTKEY_MSG_ID*/)
             {
-                Console.WriteLine("Key in message: " + (int)m.WParam);
+                //Console.WriteLine("Key in message: " + (int)m.WParam);
 
                 Keys keyId = (Keys)m.WParam;
 
@@ -250,51 +249,45 @@ namespace Cushionator
 
                 //RESEND LETTERS-------------------------------------------------------
 
-                //If it is a letter
-                if ((int)keyId >= 65 && (int)keyId <= 90)
+                //If it is a letter or number
+                if ( ((int)keyId >= 48 && (int)keyId <= 57) || ((int)keyId >= 65 && (int)keyId <= 90) )
                 {
                     KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
                     found.Unregister();
                     sim.Keyboard.KeyPress((VirtualKeyCode)keyId);
                     found.Register();
                 }
-
-                //Make sound depending of number
-                else if ((int)keyId >= 48 && (int)keyId <= 57)
-                {
-                    KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
-                    found.Unregister();
-                    SendKeys.SendWait("{" + (char)keyId + "}");
-                    found.Register();
-                }
+                //Another kind of key
                 else
                 {
                     KeyHandler found;
+                    Keys[] otherKeys = { Keys.Space, Keys.Enter, Keys.Back };
 
-                    switch (keyId)
+                    if(Array.Find(otherKeys, x => x == keyId) != 0)
                     {
-                        //Handle space
-                        case Keys.Space:
-                            found = keyHandlers.Find(x => x.key == (int)keyId);
-                            found.Unregister();
-                            SendKeys.SendWait(" ");
-                            found.Register();
-                            break;
+                        String keyToSend = "";
 
-                        //Handle backspace
-                        case Keys.Back:
-                            found = keyHandlers.Find(x => x.key == (int)keyId);
-                            found.Unregister();
-                            SendKeys.SendWait("{BACKSPACE}");
-                            found.Register();
-                            break;
+                        switch (keyId)
+                        {
+                            //Handle space
+                            case Keys.Space:
+                                keyToSend = " ";
+                                break;
 
-                        case Keys.Enter:
-                            found = keyHandlers.Find(x => x.key == (int)keyId);
-                            found.Unregister();
-                            SendKeys.SendWait("{ENTER}");
-                            found.Register();
-                            break;
+                            //Handle backspace
+                            case Keys.Back:
+                                keyToSend = "{BACKSPACE}";
+                                break;
+
+                            case Keys.Enter:
+                                keyToSend = "{ENTER}";
+                                break;
+                        }
+
+                        found = keyHandlers.Find(x => x.key == (int)keyId);
+                        found.Unregister();
+                        SendKeys.SendWait(keyToSend);
+                        found.Register();
                     }
                 }
 
