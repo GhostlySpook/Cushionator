@@ -26,6 +26,7 @@ namespace Cushionator
         private const string SOUND_PATH_BOOM = @".\Resources\boom.wav";
         private const string SOUND_PATH_TYPEWRITER_DING = @".\Resources\typewriter_ding.wav";
         private const string SOUND_PATH_HONK = @".\Resources\honk.wav";
+        private const string SOUND_PATH_DOOM = @".\Resources\doom.wav";
 
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
@@ -46,6 +47,7 @@ namespace Cushionator
         System.Media.SoundPlayer player_boom;
         System.Media.SoundPlayer player_typewriter_ding;
         System.Media.SoundPlayer player_honk;
+        System.Media.SoundPlayer player_doom;
 
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
@@ -78,7 +80,7 @@ namespace Cushionator
 
         private List<KeyHandler> keyHandlers;
         private Keys[][] keyArray = new Keys[][] {
-            /*Esc col*/ /*new Keys[] { Keys.Escape, Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin },*/
+            /*Esc col*/ new Keys[] { /*Keys.Escape, Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin*/ },
             /*1 col*/ new Keys[] { Keys.D1, Keys.Q, Keys.A, Keys.Z/*, Keys.Alt */},
             /*2 col*/ new Keys[] { Keys.D2, Keys.W, Keys.S, Keys.X },
             /*3 col*/ new Keys[] { Keys.D3, Keys.E, Keys.D, Keys.C },
@@ -86,13 +88,13 @@ namespace Cushionator
             /*5 col*/ new Keys[] { Keys.D5, Keys.T, Keys.G, Keys.B },
             /*6 col*/ new Keys[] { Keys.D6, Keys.Y, Keys.H, Keys.N },
             /*7 col*/ new Keys[] { Keys.D7, Keys.U, Keys.J, Keys.M },
-            /*8 col*/ new Keys[] { Keys.D8, Keys.I, Keys.K/*, Keys.Oemcomma, Keys.RMenu*/ },
-            /*9 col*/ new Keys[] { Keys.D9, Keys.O, Keys.L/*, Keys.OemPeriod*/ },
+            /*8 col*/ new Keys[] { Keys.D8, Keys.I, Keys.K, Keys.Oemcomma/*, Keys.RMenu*/ },
+            /*9 col*/ new Keys[] { Keys.D9, Keys.O, Keys.L, Keys.OemPeriod },
             /*0 col*/ new Keys[] { Keys.D0, Keys.P/*, Keys.OemMinus*/ },
             /*' col*/ /*new Keys[] { Keys.Oemtilde, Keys.OemOpenBrackets },*/
             /*¿ col*/ /*new Keys[] { Keys.OemQuestion, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu },*/
-            /*Backspace col*/ new Keys[] { Keys.Back/*, Keys.Enter, Keys.RShiftKey, Keys.RControlKey*/ },
-            /*Space col*/ new Keys[] { Keys.Space, Keys.Enter/*, Keys.RShiftKey, Keys.RControlKey*/ }
+            /*Backspace col*/ new Keys[] { Keys.Back, Keys.Enter/*, Keys.RShiftKey, Keys.RControlKey*/ },
+            /*Space col*/ new Keys[] { Keys.Space/*, Keys.RShiftKey, Keys.RControlKey*/ }
         };
 
         InputSimulator sim;
@@ -105,6 +107,7 @@ namespace Cushionator
             player_boom = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOM);
             player_typewriter_ding = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_TYPEWRITER_DING);
             player_honk = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_HONK);
+            player_doom = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_DOOM);
 
 
             //1 - Define whoopie sounds
@@ -158,7 +161,7 @@ namespace Cushionator
         private void button1_Click(object sender, EventArgs e)
         {
             player_honk.Play();
-            //this.WindowState = FormWindowState.Minimized;
+            //this.WindowState = FormWindowState.Minimized 
             Hide();
             notifyIcon1.Visible = true;
 
@@ -178,7 +181,7 @@ namespace Cushionator
         {
             if (m.Msg == 0x0312 /*WM_HOTKEY_MSG_ID*/)
             {
-                //Console.WriteLine("Key in message: " + (int)m.WParam);
+                Console.WriteLine("Key in message: " + (int)m.WParam);
 
                 Keys keyId = (Keys)m.WParam;
 
@@ -222,10 +225,12 @@ namespace Cushionator
                         break;
                     case Keys.I:
                     case Keys.K:
+                    case Keys.Oemcomma:
                         player_whoopie_plus_3.Play();
                         break;
                     case Keys.O:
                     case Keys.L:
+                    case Keys.OemPeriod:
                         player_whoopie_plus_4.Play();
                         break;
                     case Keys.P:
@@ -235,10 +240,13 @@ namespace Cushionator
                         player_bonk.Play();
                         break;
                     case Keys.Space:
-                        player_boom.Play();
+                        player_doom.Play();
                         break;
                     case Keys.Enter:
                         player_typewriter_ding.Play();
+                        break;
+                    case Keys.CapsLock:
+                        player_boom.Play();
                         break;
                     }
 
@@ -264,7 +272,7 @@ namespace Cushionator
                 else
                 {
                     KeyHandler found;
-                    Keys[] otherKeys = { Keys.Space, Keys.Enter, Keys.Back };
+                    Keys[] otherKeys = { Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod };
 
                     if(Array.Find(otherKeys, x => x == keyId) != 0)
                     {
@@ -284,6 +292,14 @@ namespace Cushionator
 
                             case Keys.Enter:
                                 keyToSend = "{ENTER}";
+                                break;
+
+                            case Keys.Oemcomma:
+                                keyToSend = ",";
+                                break;
+
+                            case Keys.OemPeriod:
+                                keyToSend = ".";
                                 break;
                         }
 
