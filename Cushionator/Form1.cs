@@ -30,6 +30,7 @@ namespace Cushionator
         private const string SOUND_PATH_NO = @".\Resources\NO.wav";
         private const string SOUND_PATH_BABY_GASP = @".\Resources\baby_gasp.wav";
         private const string SOUND_PATH_CAMERA = @".\Resources\camera.wav";
+        private const string SOUND_PATH_WHONK = @".\Resources\whonk.wav";
 
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
@@ -54,6 +55,7 @@ namespace Cushionator
         System.Media.SoundPlayer player_NO;
         System.Media.SoundPlayer player_baby_gasp;
         System.Media.SoundPlayer player_camera;
+        System.Media.SoundPlayer player_whonk;
 
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
@@ -86,7 +88,7 @@ namespace Cushionator
 
         private List<KeyHandler> keyHandlers;
         private Keys[][] keyArray = new Keys[][] {
-            /*Esc col*/ new Keys[] { Keys.Escape, Keys.Tab, Keys.OemMinus /* Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin*/ },
+            /*Esc col*/ new Keys[] { Keys.Escape, Keys.Tab /* Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin*/ },
             /*1 col*/ new Keys[] { Keys.D1, Keys.Q, Keys.A, Keys.Z/*, Keys.Alt */},
             /*2 col*/ new Keys[] { Keys.D2, Keys.W, Keys.S, Keys.X },
             /*3 col*/ new Keys[] { Keys.D3, Keys.E, Keys.D, Keys.C },
@@ -100,7 +102,7 @@ namespace Cushionator
             /*' col*/ /*new Keys[] { Keys.Oemtilde, Keys.OemOpenBrackets },*/
             /*¿ col*/ /*new Keys[] { Keys.OemQuestion, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu },*/
             /*Backspace col*/ new Keys[] { Keys.Back, Keys.Enter, Keys.PrintScreen/*, Keys.RShiftKey, Keys.RControlKey*/ },
-            /*Space col*/ new Keys[] { Keys.Space/*, Keys.RShiftKey, Keys.RControlKey*/ }
+            /*Space col*/ new Keys[] { Keys.Space, Keys.OemMinus, Keys.Oemplus/*, Keys.RShiftKey, Keys.RControlKey*/ }
         };
 
         InputSimulator sim;
@@ -117,6 +119,7 @@ namespace Cushionator
             player_NO = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_NO);
             player_baby_gasp = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BABY_GASP);
             player_camera = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_CAMERA);
+            player_whonk = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHONK);
 
             //1 - Define whoopie sounds
             player_whoopie = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE);
@@ -262,6 +265,9 @@ namespace Cushionator
                     case Keys.OemMinus:
                         player_boom.Play();
                         break;
+                    case Keys.Oemplus:
+                        player_whonk.Play();
+                        break;
                     case Keys.PrintScreen:
                         player_camera.Play();
                         break;
@@ -289,7 +295,7 @@ namespace Cushionator
                 else
                 {
                     KeyHandler found;
-                    Keys[] otherKeys = { Keys.PrintScreen, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
+                    Keys[] otherKeys = { Keys.PrintScreen, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
 
                     if(Array.Find(otherKeys, x => x == keyId) != 0)
                     {
@@ -325,6 +331,10 @@ namespace Cushionator
 
                             case Keys.Tab:
                                 keyToSend = "{TAB}";
+                                break;
+
+                            case Keys.Oemplus:
+                                keyToSend = "{ADD}";
                                 break;
 
                             case Keys.OemMinus:
