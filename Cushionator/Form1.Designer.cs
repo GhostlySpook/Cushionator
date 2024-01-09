@@ -80,8 +80,8 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(698, 416);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Your computer has been whoopromised by the evil villainess Moony!\r\n\r\nSome of your" +
-    " keys have become whoopie cushions!\r\n\r\n";
+            this.label2.Text = "Your computer has been whoopromised by the evil villainess Moony!\r\n\r\nYour keys ha" +
+    "ve funny sounds now!\r\n\r\n";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // notifyIcon1
