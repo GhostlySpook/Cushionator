@@ -34,6 +34,9 @@ namespace Cushionator
         private const string SOUND_PATH_MEOW = @".\Resources\meow.wav";
         private const string SOUND_PATH_BARK = @".\Resources\bark.wav";
         private const string SOUND_PATH_GNOME = @".\Resources\gnome.wav";
+        private const string SOUND_PATH_SPLAT = @".\Resources\splat.wav";
+        private const string SOUND_PATH_RIZZ = @".\Resources\rizz.wav";
+        private const string SOUND_PATH_BOOWOMP = @".\Resources\boowomp.wav";
 
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
@@ -62,6 +65,9 @@ namespace Cushionator
         System.Media.SoundPlayer player_meow;
         System.Media.SoundPlayer player_bark;
         System.Media.SoundPlayer player_gnome;
+        System.Media.SoundPlayer player_splat;
+        System.Media.SoundPlayer player_rizz;
+        System.Media.SoundPlayer player_boowomp;
 
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
@@ -105,7 +111,7 @@ namespace Cushionator
             /*8 col*/ new Keys[] { Keys.D8, Keys.I, Keys.K, Keys.Oemcomma/*, Keys.RMenu*/ },
             /*9 col*/ new Keys[] { Keys.D9, Keys.O, Keys.L, Keys.OemPeriod },
             /*0 col*/ new Keys[] { Keys.D0, Keys.P/*, Keys.OemMinus*/ },
-            /*' col*/ new Keys[] { /*Keys.Oemtilde,*/Keys.Insert, Keys.PageUp, Keys.PageDown },
+            /*' col*/ new Keys[] { /*Keys.Oemtilde,*/Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown },
             /*¿ col*/ new Keys[] { /*Keys.OemQuestion*//*, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu*/ },
             /*Backspace col*/ new Keys[] { Keys.Back, Keys.Enter, Keys.PrintScreen/*, Keys.RShiftKey, Keys.RControlKey*/ },
             /*Space col*/ new Keys[] { Keys.Space, Keys.OemMinus, Keys.Oemplus/*, Keys.RShiftKey, Keys.RControlKey*/ }
@@ -129,6 +135,9 @@ namespace Cushionator
             player_meow = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_MEOW);
             player_bark = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BARK);
             player_gnome = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_GNOME);
+            player_splat = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_SPLAT);
+            player_rizz = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_RIZZ);
+            player_boowomp = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOWOMP);
 
             //1 - Define whoopie sounds
             player_whoopie = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE);
@@ -283,6 +292,15 @@ namespace Cushionator
                     case Keys.Insert:
                         player_gnome.Play();
                         break;
+                    case Keys.Delete:
+                        player_splat.Play();
+                        break;
+                    case Keys.Home:
+                        player_rizz.Play();
+                        break;
+                    case Keys.End:
+                        player_boowomp.Play();
+                        break;
                     case Keys.PageUp:
                         player_meow.Play();
                         break;
@@ -313,7 +331,7 @@ namespace Cushionator
                 else
                 {
                     KeyHandler found;
-                    Keys[] otherKeys = { Keys.Insert, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
+                    Keys[] otherKeys = { Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
 
                     if(Array.Find(otherKeys, x => x == keyId) != 0)
                     {
@@ -365,6 +383,18 @@ namespace Cushionator
 
                             case Keys.Insert:
                                 keyToSend = "{INSERT}";
+                                break;
+
+                            case Keys.Delete:
+                                keyToSend = "{DELETE}";
+                                break;
+
+                            case Keys.Home:
+                                keyToSend = "{HOME}";
+                                break;
+
+                            case Keys.End:
+                                keyToSend = "{END}";
                                 break;
 
                             case Keys.PageUp:
