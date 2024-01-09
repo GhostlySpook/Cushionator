@@ -37,6 +37,7 @@ namespace Cushionator
         private const string SOUND_PATH_SPLAT = @".\Resources\splat.wav";
         private const string SOUND_PATH_RIZZ = @".\Resources\rizz.wav";
         private const string SOUND_PATH_BOOWOMP = @".\Resources\boowomp.wav";
+        private const string SOUND_PATH_STOP = @".\Resources\stop.wav";
 
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
@@ -68,6 +69,7 @@ namespace Cushionator
         System.Media.SoundPlayer player_splat;
         System.Media.SoundPlayer player_rizz;
         System.Media.SoundPlayer player_boowomp;
+        System.Media.SoundPlayer player_stop;
 
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
@@ -113,7 +115,7 @@ namespace Cushionator
             /*0 col*/ new Keys[] { Keys.D0, Keys.P/*, Keys.OemMinus*/ },
             /*' col*/ new Keys[] { /*Keys.Oemtilde,*/Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown },
             /*¿ col*/ new Keys[] { /*Keys.OemQuestion*//*, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu*/ },
-            /*Backspace col*/ new Keys[] { Keys.Back, Keys.Enter, Keys.PrintScreen/*, Keys.RShiftKey, Keys.RControlKey*/ },
+            /*Backspace col*/ new Keys[] { Keys.Back, Keys.Enter, Keys.PrintScreen, Keys.Pause/*, Keys.RShiftKey, Keys.RControlKey*/ },
             /*Space col*/ new Keys[] { Keys.Space, Keys.OemMinus, Keys.Oemplus/*, Keys.RShiftKey, Keys.RControlKey*/ }
         };
 
@@ -138,6 +140,7 @@ namespace Cushionator
             player_splat = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_SPLAT);
             player_rizz = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_RIZZ);
             player_boowomp = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOWOMP);
+            player_stop = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_STOP);
 
             //1 - Define whoopie sounds
             player_whoopie = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE);
@@ -289,6 +292,9 @@ namespace Cushionator
                     case Keys.PrintScreen:
                         player_camera.Play();
                         break;
+                    case Keys.Pause:
+                        player_stop.Play();
+                        break;
                     case Keys.Insert:
                         player_gnome.Play();
                         break;
@@ -331,7 +337,7 @@ namespace Cushionator
                 else
                 {
                     KeyHandler found;
-                    Keys[] otherKeys = { Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
+                    Keys[] otherKeys = { Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Pause, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
 
                     if(Array.Find(otherKeys, x => x == keyId) != 0)
                     {
@@ -370,15 +376,19 @@ namespace Cushionator
                                 break;
 
                             case Keys.Oemplus:
-                                keyToSend = "{ADD}";
+                                keyToSend = "{+}";
                                 break;
 
                             case Keys.OemMinus:
-                                keyToSend = "-";
+                                keyToSend = "{-}";
                                 break;
 
                             case Keys.PrintScreen:
                                 keyToSend = "{PRTSC}";
+                                break;
+
+                            case Keys.Pause:
+                                keyToSend = "{BREAK}";
                                 break;
 
                             case Keys.Insert:
