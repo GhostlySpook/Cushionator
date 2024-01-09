@@ -38,6 +38,7 @@ namespace Cushionator
         private const string SOUND_PATH_RIZZ = @".\Resources\rizz.wav";
         private const string SOUND_PATH_BOOWOMP = @".\Resources\boowomp.wav";
         private const string SOUND_PATH_STOP = @".\Resources\stop.wav";
+        private const string SOUND_PATH_PIPE = @".\Resources\pipe.wav";
 
         private const string SOUND_PATH_OOF = @".\Resources\oof.wav";
         private const string SOUND_PATH_TADA = @".\Resources\tada.wav";
@@ -76,6 +77,7 @@ namespace Cushionator
         System.Media.SoundPlayer player_rizz;
         System.Media.SoundPlayer player_boowomp;
         System.Media.SoundPlayer player_stop;
+        System.Media.SoundPlayer player_pipe;
 
         System.Media.SoundPlayer player_pop;
         System.Media.SoundPlayer player_oof;
@@ -121,9 +123,9 @@ namespace Cushionator
             @".\Resources\heavy_machine_gun.wav", // Machine gun
             @".\Resources\mission_complete.wav", // Mission complete
             @".\Resources\hello.wav", //Hello -----------------
-            @".\Resources\small_whoopie+1.wav",
-            @".\Resources\small_whoopie+2.wav",
-            @".\Resources\nose.wav" //Nose
+            @".\Resources\nose.wav", //Nose
+            @".\Resources\whonk.wav", //Whonk
+            @".\Resources\small_whoopie+2.wav" 
         };
 
         private System.Media.SoundPlayer[] numberPlayers;
@@ -132,7 +134,7 @@ namespace Cushionator
         private List<KeyHandler> keyHandlers;
         private Keys[][] keyArray = new Keys[][] {
             /*F col*/ new Keys[] { Keys.F1, Keys.F2, Keys.F3, Keys.F4, Keys.F5, Keys.F6, Keys.F7, Keys.F8, Keys.F9, Keys.F10, Keys.F11, Keys.F12  },
-            /*Esc col*/ new Keys[] { Keys.Escape, Keys.Tab /* Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin*/ },
+            /*Esc col*/ new Keys[] { Keys.Escape, Keys.Tab, Keys.OemPipe /* Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin*/ },
             /*1 col*/ new Keys[] { Keys.D1, Keys.Q, Keys.A, Keys.Z/*, Keys.Alt */},
             /*2 col*/ new Keys[] { Keys.D2, Keys.W, Keys.S, Keys.X },
             /*3 col*/ new Keys[] { Keys.D3, Keys.E, Keys.D, Keys.C },
@@ -172,6 +174,7 @@ namespace Cushionator
             player_rizz = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_RIZZ);
             player_boowomp = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOWOMP);
             player_stop = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_STOP);
+            player_pipe = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_PIPE);
 
             player_pop = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_POP);
             player_oof = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_OOF);
@@ -329,9 +332,9 @@ namespace Cushionator
                     case Keys.OemMinus:
                         player_boom.Play();
                         break;
-                    case Keys.Oemplus:
+                    /*case Keys.Oemplus:
                         player_whonk.Play();
-                        break;
+                        break;*/
                     case Keys.PrintScreen:
                         player_camera.Play();
                         break;
@@ -371,6 +374,9 @@ namespace Cushionator
                     case Keys.Decimal: 
                         player_smash.Play();
                         break;
+                    case Keys.OemPipe:
+                        player_pipe.Play();
+                        break;
                  }
 
                 //Make sound depending of number
@@ -404,7 +410,7 @@ namespace Cushionator
                 else
                 {
                     KeyHandler found;
-                    Keys[] otherKeys = { Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Pause, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
+                    Keys[] otherKeys = { Keys.OemPipe, Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Pause, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
 
                     if(Array.Find(otherKeys, x => x == keyId) != 0)
                     {
@@ -500,6 +506,10 @@ namespace Cushionator
 
                             case Keys.Decimal:
                                 keyToSend = ".";
+                                break;
+
+                            case Keys.OemPipe:
+                                keyToSend = "|";
                                 break;
                         }
 
