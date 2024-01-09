@@ -29,6 +29,7 @@ namespace Cushionator
         private const string SOUND_PATH_DOOM = @".\Resources\doom.wav";
         private const string SOUND_PATH_NO = @".\Resources\NO.wav";
         private const string SOUND_PATH_BABY_GASP = @".\Resources\baby_gasp.wav";
+        private const string SOUND_PATH_CAMERA = @".\Resources\camera.wav";
 
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
@@ -52,6 +53,7 @@ namespace Cushionator
         System.Media.SoundPlayer player_doom;
         System.Media.SoundPlayer player_NO;
         System.Media.SoundPlayer player_baby_gasp;
+        System.Media.SoundPlayer player_camera;
 
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
@@ -97,7 +99,7 @@ namespace Cushionator
             /*0 col*/ new Keys[] { Keys.D0, Keys.P/*, Keys.OemMinus*/ },
             /*' col*/ /*new Keys[] { Keys.Oemtilde, Keys.OemOpenBrackets },*/
             /*¿ col*/ /*new Keys[] { Keys.OemQuestion, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu },*/
-            /*Backspace col*/ new Keys[] { Keys.Back, Keys.Enter/*, Keys.RShiftKey, Keys.RControlKey*/ },
+            /*Backspace col*/ new Keys[] { Keys.Back, Keys.Enter, Keys.PrintScreen/*, Keys.RShiftKey, Keys.RControlKey*/ },
             /*Space col*/ new Keys[] { Keys.Space/*, Keys.RShiftKey, Keys.RControlKey*/ }
         };
 
@@ -114,6 +116,7 @@ namespace Cushionator
             player_doom = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_DOOM);
             player_NO = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_NO);
             player_baby_gasp = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BABY_GASP);
+            player_camera = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_CAMERA);
 
             //1 - Define whoopie sounds
             player_whoopie = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE);
@@ -259,6 +262,9 @@ namespace Cushionator
                     case Keys.OemMinus:
                         player_boom.Play();
                         break;
+                    case Keys.PrintScreen:
+                        player_camera.Play();
+                        break;
                     }
 
                 //Make sound depending of number
@@ -283,7 +289,7 @@ namespace Cushionator
                 else
                 {
                     KeyHandler found;
-                    Keys[] otherKeys = { Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
+                    Keys[] otherKeys = { Keys.PrintScreen, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
 
                     if(Array.Find(otherKeys, x => x == keyId) != 0)
                     {
@@ -323,6 +329,10 @@ namespace Cushionator
 
                             case Keys.OemMinus:
                                 keyToSend = "-";
+                                break;
+
+                            case Keys.PrintScreen:
+                                keyToSend = "{PRTSC}";
                                 break;
                         }
 
