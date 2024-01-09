@@ -136,9 +136,24 @@ namespace Cushionator
             @".\Resources\thwomp.wav", //Down
         };
 
+        private String[] numpad_sound_array =
+        {
+            @".\Resources\tf2.wav", //Victory
+            @".\Resources\scout.wav", //Scout
+            @".\Resources\soldier.wav", //Soldier
+            @".\Resources\pyro.wav", //Pyro
+            @".\Resources\demo.wav", //Demo
+            @".\Resources\heavy.wav", //Heavy
+            @".\Resources\engie.wav", //Engie
+            @".\Resources\medic.wav", //Medic
+            @".\Resources\sniper.wav", //Sniper
+            @".\Resources\spy.wav" //Spy
+        };
+
         private System.Media.SoundPlayer[] numberPlayers;
         private System.Media.SoundPlayer[] functionPlayers;
         private System.Media.SoundPlayer[] directionalPlayers;
+        private System.Media.SoundPlayer[] numpadPlayers;
 
         private List<KeyHandler> keyHandlers;
         private Keys[][] keyArray = new Keys[][] {
@@ -158,7 +173,8 @@ namespace Cushionator
             /*Numpad operator group*/ new Keys[] { Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Decimal/*Keys.OemQuestion*//*, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu*/ },
             /*Misc col*/ new Keys[] { Keys.Back, Keys.Enter, Keys.PrintScreen, Keys.Pause/*, Keys.RShiftKey, Keys.RControlKey*/ },
             /*Symbol group*/ new Keys[] { Keys.Space, Keys.OemMinus, Keys.Oemplus/*, Keys.RShiftKey, Keys.RControlKey*/ },
-            /*Directional group*/ new Keys[] { Keys.Up, Keys.Down, Keys.Left, Keys.Right }
+            /*Directional group*/ new Keys[] { Keys.Up, Keys.Down, Keys.Left, Keys.Right },
+            /*Numpad group*/ new Keys[] { Keys.NumPad0, Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9 }
         };
 
         InputSimulator sim;
@@ -225,6 +241,13 @@ namespace Cushionator
             for (int i = 0; i < directionalPlayers.Length; i++)
             {
                 directionalPlayers[i] = new System.Media.SoundPlayer(soundLocation: directional_sound_array[i]);
+            }
+
+            //Player for directionals
+            numpadPlayers = new System.Media.SoundPlayer[10];
+            for (int i = 0; i < numpadPlayers.Length; i++)
+            {
+                numpadPlayers[i] = new System.Media.SoundPlayer(soundLocation: numpad_sound_array[i]);
             }
 
             //2 - Add hooks to keys
@@ -418,13 +441,22 @@ namespace Cushionator
                     directionalPlayers[numToPlay].Play();
                 }
 
+                //Make sound for numpad keys
+                else if ((int)keyId >= 96 && (int)keyId <= 105)
+                {
+                    int numToPlay = (int)keyId - 96;
+                    numpadPlayers[numToPlay].Play();
+                }
+
                 //RESEND LETTERS-------------------------------------------------------
 
-                //If it is a letter or number or directional
+                //If it is a letter or number or directional or numpad
                 if ( ((int)keyId >= 48 && (int)keyId <= 57) || 
                     ((int)keyId >= 65 && (int)keyId <= 90) ||
                     ((int)keyId >= 112 && (int)keyId <= 123) ||
-                    ((int)keyId >= 37 && (int)keyId <= 40))
+                    ((int)keyId >= 37 && (int)keyId <= 40) ||
+                    ((int)keyId >= 96 && (int)keyId <= 105)
+                    )
                 {
                     KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
                     found.Unregister();
