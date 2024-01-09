@@ -84,7 +84,7 @@ namespace Cushionator
 
         private List<KeyHandler> keyHandlers;
         private Keys[][] keyArray = new Keys[][] {
-            /*Esc col*/ new Keys[] { Keys.Escape, Keys.Tab /* Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin*/ },
+            /*Esc col*/ new Keys[] { Keys.Escape, Keys.Tab, Keys.OemMinus /* Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin*/ },
             /*1 col*/ new Keys[] { Keys.D1, Keys.Q, Keys.A, Keys.Z/*, Keys.Alt */},
             /*2 col*/ new Keys[] { Keys.D2, Keys.W, Keys.S, Keys.X },
             /*3 col*/ new Keys[] { Keys.D3, Keys.E, Keys.D, Keys.C },
@@ -256,6 +256,9 @@ namespace Cushionator
                     case Keys.Tab:
                         player_baby_gasp.Play();
                         break;
+                    case Keys.OemMinus:
+                        player_boom.Play();
+                        break;
                     }
 
                 //Make sound depending of number
@@ -280,7 +283,7 @@ namespace Cushionator
                 else
                 {
                     KeyHandler found;
-                    Keys[] otherKeys = { Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
+                    Keys[] otherKeys = { Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
 
                     if(Array.Find(otherKeys, x => x == keyId) != 0)
                     {
@@ -316,6 +319,10 @@ namespace Cushionator
 
                             case Keys.Tab:
                                 keyToSend = "{TAB}";
+                                break;
+
+                            case Keys.OemMinus:
+                                keyToSend = "-";
                                 break;
                         }
 
