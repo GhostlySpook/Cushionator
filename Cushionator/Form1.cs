@@ -116,14 +116,14 @@ namespace Cushionator
             @".\Resources\codec.wav", //Codec
             @".\Resources\ration.wav", //Ration
             @".\Resources\death.wav", //Death
-            @".\Resources\small_whoopie-1.wav", //Mission start -----------------
-            @".\Resources\small_whoopie.wav", // Thank you
-            @".\Resources\small_whoopie+1.wav", // Machine gun
-            @".\Resources\small_whoopie+2.wav", // Mission complete
-            @".\Resources\small_whoopie+3.wav", //Hello -----------------
+            @".\Resources\mission_start.wav", //Mission start -----------------
+            @".\Resources\thank_you.wav", // Thank you
+            @".\Resources\heavy_machine_gun.wav", // Machine gun
+            @".\Resources\mission_complete.wav", // Mission complete
+            @".\Resources\hello.wav", //Hello -----------------
             @".\Resources\small_whoopie+1.wav",
             @".\Resources\small_whoopie+2.wav",
-            @".\Resources\small_whoopie+3.wav" //Honk
+            @".\Resources\nose.wav" //Nose
         };
 
         private System.Media.SoundPlayer[] numberPlayers;
