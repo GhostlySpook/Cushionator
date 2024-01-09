@@ -24,6 +24,7 @@ namespace Cushionator
         private const string SOUND_PATH_BANANA = @".\Resources\banana.wav";
         private const string SOUND_PATH_BONK = @".\Resources\bonk.wav";
         private const string SOUND_PATH_BOOM = @".\Resources\boom.wav";
+        private const string SOUND_PATH_TYPEWRITER_DING = @".\Resources\typewriter_ding.wav";
 
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
@@ -42,6 +43,7 @@ namespace Cushionator
         System.Media.SoundPlayer player_banana;
         System.Media.SoundPlayer player_bonk;
         System.Media.SoundPlayer player_boom;
+        System.Media.SoundPlayer player_typewriter_ding;
 
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
@@ -88,7 +90,7 @@ namespace Cushionator
             /*' col*/ /*new Keys[] { Keys.Oemtilde, Keys.OemOpenBrackets },*/
             /*¿ col*/ /*new Keys[] { Keys.OemQuestion, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu },*/
             /*Backspace col*/ new Keys[] { Keys.Back/*, Keys.Enter, Keys.RShiftKey, Keys.RControlKey*/ },
-            /*Space col*/ new Keys[] { Keys.Space/*, Keys.Enter, Keys.RShiftKey, Keys.RControlKey*/ }
+            /*Space col*/ new Keys[] { Keys.Space, Keys.Enter/*, Keys.RShiftKey, Keys.RControlKey*/ }
         };
 
         InputSimulator sim;
@@ -99,6 +101,7 @@ namespace Cushionator
             player_duck = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_DUCK);
             player_banana = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BANANA);
             player_boom = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOM);
+            player_typewriter_ding = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_TYPEWRITER_DING);
 
             //TO DO Add hooks for every key on the keyboard
             //1 - Define whoopie sounds
@@ -232,7 +235,10 @@ namespace Cushionator
                     case Keys.Space:
                         player_boom.Play();
                         break;
-                }
+                    case Keys.Enter:
+                        player_typewriter_ding.Play();
+                        break;
+                    }
 
                 //Make sound depending of number
                 if((int)keyId >= 48 && (int)keyId <= 57)
@@ -242,41 +248,54 @@ namespace Cushionator
                     numberPlayers[numToPlay].Play();
                 }
 
+                //RESEND LETTERS-------------------------------------------------------
+
                 //If it is a letter
                 if ((int)keyId >= 65 && (int)keyId <= 90)
                 {
                     KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
                     found.Unregister();
                     sim.Keyboard.KeyPress((VirtualKeyCode)keyId);
-                    //SendKeys.SendWait("+{" + (char)keyId + "}");
                     found.Register();
                 }
 
                 //Make sound depending of number
-                if ((int)keyId >= 48 && (int)keyId <= 57)
+                else if ((int)keyId >= 48 && (int)keyId <= 57)
                 {
                     KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
                     found.Unregister();
-                    SendKeys.SendWait("+{" + (char)keyId + "}");
+                    SendKeys.SendWait("{" + (char)keyId + "}");
                     found.Register();
                 }
-
-                //Handle space
-                else if ((int)keyId == (int)Keys.Space)
+                else
                 {
-                    KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
-                    found.Unregister();
-                    SendKeys.SendWait(" ");
-                    found.Register();
-                }
+                    KeyHandler found;
 
-                //Handle backspace
-                else if((int)keyId == (int)Keys.Back)
-                {
-                    KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
-                    found.Unregister();
-                    SendKeys.SendWait("{BACKSPACE}");
-                    found.Register();
+                    switch (keyId)
+                    {
+                        //Handle space
+                        case Keys.Space:
+                            found = keyHandlers.Find(x => x.key == (int)keyId);
+                            found.Unregister();
+                            SendKeys.SendWait(" ");
+                            found.Register();
+                            break;
+
+                        //Handle backspace
+                        case Keys.Back:
+                            found = keyHandlers.Find(x => x.key == (int)keyId);
+                            found.Unregister();
+                            SendKeys.SendWait("{BACKSPACE}");
+                            found.Register();
+                            break;
+
+                        case Keys.Enter:
+                            found = keyHandlers.Find(x => x.key == (int)keyId);
+                            found.Unregister();
+                            SendKeys.SendWait("{ENTER}");
+                            found.Register();
+                            break;
+                    }
                 }
 
             }
