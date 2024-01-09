@@ -103,7 +103,6 @@ namespace Cushionator
             player_boom = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOM);
             player_typewriter_ding = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_TYPEWRITER_DING);
 
-            //TO DO Add hooks for every key on the keyboard
             //1 - Define whoopie sounds
             player_whoopie = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE);
             player_whoopie_minus_4 = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE_MINUS_4);
@@ -243,7 +242,7 @@ namespace Cushionator
                 if((int)keyId >= 48 && (int)keyId <= 57)
                 {
                     int numToPlay = (int)keyId - 48;
-                    Console.WriteLine("Pos: " + numToPlay);
+                    //Console.WriteLine("Pos: " + numToPlay);
                     numberPlayers[numToPlay].Play();
                 }
 
