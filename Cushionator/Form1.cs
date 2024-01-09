@@ -39,7 +39,6 @@ namespace Cushionator
         private const string SOUND_PATH_BOOWOMP = @".\Resources\boowomp.wav";
         private const string SOUND_PATH_STOP = @".\Resources\stop.wav";
 
-        private const string SOUND_PATH_NOSE = @".\Resources\nose.wav";
         private const string SOUND_PATH_OOF = @".\Resources\oof.wav";
         private const string SOUND_PATH_TADA = @".\Resources\tada.wav";
         private const string SOUND_PATH_LEGO = @".\Resources\lego.wav";
@@ -77,7 +76,7 @@ namespace Cushionator
         System.Media.SoundPlayer player_rizz;
         System.Media.SoundPlayer player_boowomp;
         System.Media.SoundPlayer player_stop;
-        System.Media.SoundPlayer player_nose;
+
         System.Media.SoundPlayer player_pop;
         System.Media.SoundPlayer player_oof;
         System.Media.SoundPlayer player_tada;
@@ -111,10 +110,28 @@ namespace Cushionator
             @".\Resources\small_whoopie+4.wav"
         };
 
+        private String[] function_sound_array =
+        {
+            @".\Resources\alert.wav", //Alert -------------
+            @".\Resources\codec.wav", //Codec
+            @".\Resources\ration.wav", //Ration
+            @".\Resources\death.wav", //Death
+            @".\Resources\small_whoopie-1.wav", //Mission start -----------------
+            @".\Resources\small_whoopie.wav", // Thank you
+            @".\Resources\small_whoopie+1.wav", // Machine gun
+            @".\Resources\small_whoopie+2.wav", // Mission complete
+            @".\Resources\small_whoopie+3.wav", //Hello -----------------
+            @".\Resources\small_whoopie+1.wav",
+            @".\Resources\small_whoopie+2.wav",
+            @".\Resources\small_whoopie+3.wav" //Honk
+        };
+
         private System.Media.SoundPlayer[] numberPlayers;
+        private System.Media.SoundPlayer[] functionPlayers;
 
         private List<KeyHandler> keyHandlers;
         private Keys[][] keyArray = new Keys[][] {
+            /*F col*/ new Keys[] { Keys.F1, Keys.F2, Keys.F3, Keys.F4, Keys.F5, Keys.F6, Keys.F7, Keys.F8, Keys.F9, Keys.F10, Keys.F11, Keys.F12  },
             /*Esc col*/ new Keys[] { Keys.Escape, Keys.Tab /* Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin*/ },
             /*1 col*/ new Keys[] { Keys.D1, Keys.Q, Keys.A, Keys.Z/*, Keys.Alt */},
             /*2 col*/ new Keys[] { Keys.D2, Keys.W, Keys.S, Keys.X },
@@ -126,10 +143,10 @@ namespace Cushionator
             /*8 col*/ new Keys[] { Keys.D8, Keys.I, Keys.K, Keys.Oemcomma/*, Keys.RMenu*/ },
             /*9 col*/ new Keys[] { Keys.D9, Keys.O, Keys.L, Keys.OemPeriod },
             /*0 col*/ new Keys[] { Keys.D0, Keys.P/*, Keys.OemMinus*/ },
-            /*' col*/ new Keys[] { /*Keys.Oemtilde,*/Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown },
-            /*¿ col*/ new Keys[] { Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Decimal/*Keys.OemQuestion*//*, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu*/ },
-            /*Backspace col*/ new Keys[] { Keys.Back, Keys.Enter, Keys.PrintScreen, Keys.Pause/*, Keys.RShiftKey, Keys.RControlKey*/ },
-            /*Space col*/ new Keys[] { Keys.Space, Keys.OemMinus, Keys.Oemplus/*, Keys.RShiftKey, Keys.RControlKey*/ }
+            /*6 key group*/ new Keys[] { /*Keys.Oemtilde,*/Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown },
+            /*Numpad operator group*/ new Keys[] { Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Decimal/*Keys.OemQuestion*//*, Keys.Oemplus, Keys.OemCloseBrackets, Keys.Menu*/ },
+            /*Misc col*/ new Keys[] { Keys.Back, Keys.Enter, Keys.PrintScreen, Keys.Pause/*, Keys.RShiftKey, Keys.RControlKey*/ },
+            /*Symbol group*/ new Keys[] { Keys.Space, Keys.OemMinus, Keys.Oemplus/*, Keys.RShiftKey, Keys.RControlKey*/ }
         };
 
         InputSimulator sim;
@@ -145,6 +162,7 @@ namespace Cushionator
             player_doom = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_DOOM);
             player_NO = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_NO);
             player_baby_gasp = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BABY_GASP);
+            player_bonk = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BONK);
             player_camera = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_CAMERA);
             player_whonk = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHONK);
             player_meow = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_MEOW);
@@ -154,12 +172,12 @@ namespace Cushionator
             player_rizz = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_RIZZ);
             player_boowomp = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOWOMP);
             player_stop = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_STOP);
+
+            player_pop = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_POP);
             player_oof = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_OOF);
             player_tada = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_TADA);
             player_lego = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_LEGO);
             player_smash = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_SMASH);
-            player_pop = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_POP);
-            player_nose = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_NOSE);
 
             //1 - Define whoopie sounds
             player_whoopie = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE);
@@ -175,15 +193,21 @@ namespace Cushionator
 
             player_whoopie_loud = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE_REVERB);
 
+            //Players for numbers
             numberPlayers = new System.Media.SoundPlayer[10];
             for(int i = 0; i < numberPlayers.Length; i++)
             {
                 numberPlayers[i] = new System.Media.SoundPlayer(soundLocation: small_whoopie_array[i]);
             }
 
-            player_bonk = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BONK);
+            //Player for functions
+            functionPlayers = new System.Media.SoundPlayer[12];
+            for (int i = 0; i < functionPlayers.Length; i++)
+            {
+                functionPlayers[i] = new System.Media.SoundPlayer(soundLocation: function_sound_array[i]);
+            }
 
-            //2 - Add hooks to normal keys from a-z 0-9
+            //2 - Add hooks to keys
             keyHandlers = new List<KeyHandler>();
 
             for(int i = 0; i < keyArray.Length; i++)
@@ -357,10 +381,19 @@ namespace Cushionator
                     numberPlayers[numToPlay].Play();
                 }
 
+                //Make sound for function keys
+                if ((int)keyId >= 112 && (int)keyId <= 123)
+                {
+                    int numToPlay = (int)keyId - 112;
+                    functionPlayers[numToPlay].Play();
+                }
+
                 //RESEND LETTERS-------------------------------------------------------
 
                 //If it is a letter or number
-                if ( ((int)keyId >= 48 && (int)keyId <= 57) || ((int)keyId >= 65 && (int)keyId <= 90) )
+                if ( ((int)keyId >= 48 && (int)keyId <= 57) || 
+                    ((int)keyId >= 65 && (int)keyId <= 90) ||
+                    ((int)keyId >= 112 && (int)keyId <= 123))
                 {
                     KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
                     found.Unregister();
