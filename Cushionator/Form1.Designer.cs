@@ -105,14 +105,14 @@
             // revealToolStripMenuItem
             // 
             this.revealToolStripMenuItem.Name = "revealToolStripMenuItem";
-            this.revealToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.revealToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.revealToolStripMenuItem.Text = "Reveal!";
             this.revealToolStripMenuItem.Click += new System.EventHandler(this.revealToolStripMenuItem_Click);
             // 
             // selfDestructToolStripMenuItem
             // 
             this.selfDestructToolStripMenuItem.Name = "selfDestructToolStripMenuItem";
-            this.selfDestructToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.selfDestructToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.selfDestructToolStripMenuItem.Text = "Self-Destruct";
             this.selfDestructToolStripMenuItem.Click += new System.EventHandler(this.selfDestructToolStripMenuItem_Click);
             // 

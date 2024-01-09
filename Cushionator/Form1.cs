@@ -25,6 +25,7 @@ namespace Cushionator
         private const string SOUND_PATH_BONK = @".\Resources\bonk.wav";
         private const string SOUND_PATH_BOOM = @".\Resources\boom.wav";
         private const string SOUND_PATH_TYPEWRITER_DING = @".\Resources\typewriter_ding.wav";
+        private const string SOUND_PATH_HONK = @".\Resources\honk.wav";
 
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
@@ -44,6 +45,7 @@ namespace Cushionator
         System.Media.SoundPlayer player_bonk;
         System.Media.SoundPlayer player_boom;
         System.Media.SoundPlayer player_typewriter_ding;
+        System.Media.SoundPlayer player_honk;
 
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
@@ -102,6 +104,8 @@ namespace Cushionator
             player_banana = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BANANA);
             player_boom = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOM);
             player_typewriter_ding = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_TYPEWRITER_DING);
+            player_honk = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_HONK);
+
 
             //1 - Define whoopie sounds
             player_whoopie = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE);
@@ -153,7 +157,7 @@ namespace Cushionator
 
         private void button1_Click(object sender, EventArgs e)
         {
-            player_duck.Play();
+            player_honk.Play();
             //this.WindowState = FormWindowState.Minimized;
             Hide();
             notifyIcon1.Visible = true;
