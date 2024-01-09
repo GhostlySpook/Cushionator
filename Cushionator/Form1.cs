@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -151,6 +155,18 @@ namespace Cushionator
             //this.WindowState = FormWindowState.Minimized;
             Hide();
             notifyIcon1.Visible = true;
+
+            //Send notification
+            var imageUri = Path.GetFullPath(@"Resources\Moony.PNG");
+
+            new ToastContentBuilder()
+                .AddArgument("action", "viewConversation")
+            .AddArgument("conversationId", 9813)
+            .AddText("Mwahahahaha!")
+                .AddText("The cushionator has taken hold of your notification tray! So sneaky!")
+                .AddAppLogoOverride(new Uri(imageUri))
+                //.AddHeroImage(new Uri(imageUri))
+                .Show();
         }
 
         protected override void WndProc(ref Message m)
