@@ -27,6 +27,8 @@ namespace Cushionator
         private const string SOUND_PATH_TYPEWRITER_DING = @".\Resources\typewriter_ding.wav";
         private const string SOUND_PATH_HONK = @".\Resources\honk.wav";
         private const string SOUND_PATH_DOOM = @".\Resources\doom.wav";
+        private const string SOUND_PATH_NO = @".\Resources\NO.wav";
+        private const string SOUND_PATH_BABY_GASP = @".\Resources\baby_gasp.wav";
 
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
@@ -48,6 +50,8 @@ namespace Cushionator
         System.Media.SoundPlayer player_typewriter_ding;
         System.Media.SoundPlayer player_honk;
         System.Media.SoundPlayer player_doom;
+        System.Media.SoundPlayer player_NO;
+        System.Media.SoundPlayer player_baby_gasp;
 
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
@@ -80,7 +84,7 @@ namespace Cushionator
 
         private List<KeyHandler> keyHandlers;
         private Keys[][] keyArray = new Keys[][] {
-            /*Esc col*/ new Keys[] { /*Keys.Escape, Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin*/ },
+            /*Esc col*/ new Keys[] { Keys.Escape, Keys.Tab /* Keys.Oem5, Keys.Tab, Keys.CapsLock, Keys.Shift, Keys.LControlKey, Keys.LWin*/ },
             /*1 col*/ new Keys[] { Keys.D1, Keys.Q, Keys.A, Keys.Z/*, Keys.Alt */},
             /*2 col*/ new Keys[] { Keys.D2, Keys.W, Keys.S, Keys.X },
             /*3 col*/ new Keys[] { Keys.D3, Keys.E, Keys.D, Keys.C },
@@ -108,7 +112,8 @@ namespace Cushionator
             player_typewriter_ding = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_TYPEWRITER_DING);
             player_honk = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_HONK);
             player_doom = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_DOOM);
-
+            player_NO = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_NO);
+            player_baby_gasp = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BABY_GASP);
 
             //1 - Define whoopie sounds
             player_whoopie = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE);
@@ -245,8 +250,11 @@ namespace Cushionator
                     case Keys.Enter:
                         player_typewriter_ding.Play();
                         break;
-                    case Keys.CapsLock:
-                        player_boom.Play();
+                    case Keys.Escape:
+                        player_NO.Play();
+                        break;
+                    case Keys.Tab:
+                        player_baby_gasp.Play();
                         break;
                     }
 
@@ -272,7 +280,7 @@ namespace Cushionator
                 else
                 {
                     KeyHandler found;
-                    Keys[] otherKeys = { Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod };
+                    Keys[] otherKeys = { Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
 
                     if(Array.Find(otherKeys, x => x == keyId) != 0)
                     {
@@ -300,6 +308,14 @@ namespace Cushionator
 
                             case Keys.OemPeriod:
                                 keyToSend = ".";
+                                break;
+
+                            case Keys.Escape:
+                                keyToSend = "{ESC}";
+                                break;
+
+                            case Keys.Tab:
+                                keyToSend = "{TAB}";
                                 break;
                         }
 
