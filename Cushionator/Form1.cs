@@ -46,6 +46,8 @@ namespace Cushionator
         private const string SOUND_PATH_SMASH = @".\Resources\smash.wav";
         private const string SOUND_PATH_POP = @".\Resources\pop.wav";
 
+        private const string SOUND_PATH_TOTAKA = @".\Resources\totaka.wav";
+
         private const string SOUND_PATH_WHOOPIE = @".\Resources\whoopie.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_4 = @".\Resources\whoopie-4.wav";
         private const string SOUND_PATH_WHOOPIE_MINUS_3 = @".\Resources\whoopie-3.wav";
@@ -84,6 +86,8 @@ namespace Cushionator
         System.Media.SoundPlayer player_tada;
         System.Media.SoundPlayer player_lego;
         System.Media.SoundPlayer player_smash;
+
+        System.Media.SoundPlayer player_totaka;
 
         System.Media.SoundPlayer player_whoopie;
         System.Media.SoundPlayer player_whoopie_minus_4;
@@ -180,8 +184,16 @@ namespace Cushionator
         InputSimulator sim;
         bool canShow = true;
 
+        private string current_totaka;
+        private string hidden_string;
+        private bool play_hidden;
+
         public Form1()
         {
+            //Secret current totaka
+            current_totaka = "";
+            hidden_string = "TOTAKA";
+
             player_duck = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_DUCK);
             player_banana = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BANANA);
             player_boom = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_BOOM);
@@ -207,6 +219,8 @@ namespace Cushionator
             player_tada = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_TADA);
             player_lego = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_LEGO);
             player_smash = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_SMASH);
+
+            player_totaka = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_TOTAKA);
 
             //1 - Define whoopie sounds
             player_whoopie = new System.Media.SoundPlayer(soundLocation: SOUND_PATH_WHOOPIE);
@@ -300,7 +314,34 @@ namespace Cushionator
             if (m.Msg == 0x0312 /*WM_HOTKEY_MSG_ID*/)
             {
                 Console.WriteLine("Key in message: " + (int)m.WParam);
+                
+                //Handle totaka secret
+                Console.WriteLine("Char received: " + (char)m.WParam);
 
+                char receivedChar = (char)m.WParam;
+                current_totaka += receivedChar;
+
+                //Check current string
+                int secret_pos = current_totaka.Length - 1;
+
+                play_hidden = false;
+
+                if (current_totaka[secret_pos] == hidden_string[secret_pos])
+                {
+                    if(current_totaka == hidden_string)
+                    {
+                        play_hidden = true;
+                        player_totaka.Play();
+                        current_totaka = "";
+                    }
+                }
+                else
+                {
+                    current_totaka = "";
+                }
+
+
+                //KeyIds received ++++++++++++++++++++++++++++++++++++++++++++++++++
                 Keys keyId = (Keys)m.WParam;
 
                 //Make sound depending of letter
@@ -309,7 +350,10 @@ namespace Cushionator
                     case Keys.Q:
                     case Keys.A:
                     case Keys.Z:
-                        player_whoopie_minus_4.Play();
+                        if (!play_hidden)
+                        {
+                            player_whoopie_minus_4.Play();
+                        }
                         break;
                     case Keys.W: 
                     case Keys.S:
