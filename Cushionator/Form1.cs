@@ -190,6 +190,7 @@ namespace Cushionator
 
         public Form1()
         {
+
             //Secret current totaka
             current_totaka = "";
             hidden_string = "TOTAKA";
@@ -312,6 +313,8 @@ namespace Cushionator
             }
             catch (Exception exception){
                 Console.WriteLine(exception.ToString());
+
+                notifyIcon1.ShowBalloonTip(1000);
 
                 /*try
                 {
@@ -641,8 +644,7 @@ namespace Cushionator
                 }
                 catch (Exception)
                 {
-
-                    throw;
+                    MessageBox.Show("Sound for key not found");
                 }
 
             }
