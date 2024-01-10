@@ -532,7 +532,7 @@ namespace Cushionator
                     else
                     {
                         KeyHandler found;
-                        Keys[] otherKeys = { Keys.OemPipe, Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Pause, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
+                        Keys[] otherKeys = { Keys.OemPipe, Keys.Decimal, Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Pause, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
 
                         if (Array.Find(otherKeys, x => x == keyId) != 0)
                         {
