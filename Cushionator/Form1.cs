@@ -298,7 +298,7 @@ namespace Cushionator
             notifyIcon1.Visible = true;
 
             //Send notification
-            var imageUri = Path.GetFullPath(@"Resources\Moony.PNG");
+            var imageUri = Path.GetFullPath(@"Resources\Pyo Bandana.PNG");
 
             new ToastContentBuilder()
                 .AddArgument("action", "viewConversation")

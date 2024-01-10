@@ -46,7 +46,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(630, 398);
+            this.button1.Location = new System.Drawing.Point(604, 367);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(48, 41);
             this.button1.TabIndex = 0;
@@ -57,9 +57,9 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(24, 188);
+            this.pictureBox1.Location = new System.Drawing.Point(22, 129);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(238, 297);
+            this.pictureBox1.Size = new System.Drawing.Size(310, 297);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -78,12 +78,11 @@
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 33.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(335, 130);
+            this.label2.Location = new System.Drawing.Point(353, 129);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(698, 320);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Your computer has been whoopromised by the evil villainess Moony!\r\n\r\nYour keyboar" +
-    "d makes funny sounds now!\r\n\r\n";
+            this.label2.Text = "Pyo make keyboard do silly sounds!\r\n\r\nPyo make silly prank now!\r\n\r\n\r\n";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // notifyIcon1
@@ -133,7 +132,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1045, 484);
+            this.ClientSize = new System.Drawing.Size(1045, 432);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
