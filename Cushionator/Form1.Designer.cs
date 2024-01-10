@@ -56,9 +56,10 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(2, 130);
+            this.pictureBox1.Location = new System.Drawing.Point(24, 188);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(327, 297);
+            this.pictureBox1.Size = new System.Drawing.Size(238, 297);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -80,8 +81,8 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(698, 416);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Your computer has been whoopromised by the evil villainess Moony!\r\n\r\nYour keys ha" +
-    "ve funny sounds now!\r\n\r\n";
+            this.label2.Text = "Your computer has been whoopromised by the evil villainess Moony!\r\n\r\nYour keyboar" +
+    "d makes funny sounds now!\r\n\r\n";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // notifyIcon1
