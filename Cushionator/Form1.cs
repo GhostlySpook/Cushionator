@@ -298,327 +298,351 @@ namespace Cushionator
             notifyIcon1.Visible = true;
 
             //Send notification
-            var imageUri = Path.GetFullPath(@"Resources\Pyo Bandana.PNG");
+            try
+            {
+                var imageUri = Path.GetFullPath(@"Resources\Pyo Bandana.PNG");
 
-            new ToastContentBuilder()
-                .AddArgument("action", "viewConversation")
-            .AddArgument("conversationId", 9813)
-            .AddText("Mwahahahaha!")
-                .AddText("The cushionator has taken hold of your notification tray! So sneaky!")
-                .AddAppLogoOverride(new Uri(imageUri))
-                .Show();
+                new ToastContentBuilder()
+                    .AddArgument("action", "viewConversation")
+                .AddArgument("conversationId", 9813)
+                .AddText("Mwahahahaha!")
+                    .AddText("The cushionator has taken hold of your notification tray! So sneaky!")
+                    .AddAppLogoOverride(new Uri(imageUri))
+                    .Show();
+            }
+            catch (Exception exception){
+                Console.WriteLine(exception.ToString());
+
+                /*try
+                {
+
+                }
+                catch (Exception e2)
+                {
+
+                    throw;
+                }*/
+            }
         }
 
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == 0x0312 /*WM_HOTKEY_MSG_ID*/)
             {
-                Console.WriteLine("Key in message: " + (int)m.WParam);
-                
-                //Handle totaka secret
-                Console.WriteLine("Char received: " + (char)m.WParam);
-
-                char receivedChar = (char)m.WParam;
-                current_totaka += receivedChar;
-
-                //Check current string
-                int secret_pos = current_totaka.Length - 1;
-
-                play_hidden = false;
-
-                if (current_totaka[secret_pos] == hidden_string[secret_pos])
+                try
                 {
-                    if(current_totaka == hidden_string)
+                    Console.WriteLine("Key in message: " + (int)m.WParam);
+
+                    //Handle totaka secret
+                    Console.WriteLine("Char received: " + (char)m.WParam);
+
+                    char receivedChar = (char)m.WParam;
+                    current_totaka += receivedChar;
+
+                    //Check current string
+                    int secret_pos = current_totaka.Length - 1;
+
+                    play_hidden = false;
+
+                    if (current_totaka[secret_pos] == hidden_string[secret_pos])
                     {
-                        play_hidden = true;
-                        player_totaka.Play();
+                        if (current_totaka == hidden_string)
+                        {
+                            play_hidden = true;
+                            player_totaka.Play();
+                            current_totaka = "";
+                        }
+                    }
+                    else
+                    {
                         current_totaka = "";
                     }
-                }
-                else
-                {
-                    current_totaka = "";
-                }
 
 
-                //KeyIds received ++++++++++++++++++++++++++++++++++++++++++++++++++
-                Keys keyId = (Keys)m.WParam;
+                    //KeyIds received ++++++++++++++++++++++++++++++++++++++++++++++++++
+                    Keys keyId = (Keys)m.WParam;
 
-                //Make sound depending of letter
-                switch (keyId)
-                {
-                    case Keys.Q:
-                    case Keys.A:
-                    case Keys.Z:
-                        if (!play_hidden)
-                        {
-                            player_whoopie_minus_4.Play();
-                        }
-                        break;
-                    case Keys.W: 
-                    case Keys.S:
-                    case Keys.X:
-                        player_whoopie_minus_3.Play();
-                        break;
-                    case Keys.E:
-                    case Keys.D:
-                    case Keys.C:
-                        player_whoopie_minus_2.Play();
-                        break;
-                    case Keys.R:
-                    case Keys.F:
-                    case Keys.V:
-                        player_whoopie_minus_1.Play();
-                        break;
-                    case Keys.T:
-                    case Keys.G:
-                    case Keys.B:
-                        player_whoopie.Play();
-                        break;
-                    case Keys.Y:
-                    case Keys.H:
-                    case Keys.N:
-                        player_whoopie_plus_1.Play();
-                        break;
-                    case Keys.U:
-                    case Keys.J:
-                    case Keys.M:
-                        player_whoopie_plus_2.Play();
-                        break;
-                    case Keys.I:
-                    case Keys.K:
-                    case Keys.Oemcomma:
-                        player_whoopie_plus_3.Play();
-                        break;
-                    case Keys.O:
-                    case Keys.L:
-                    case Keys.OemPeriod:
-                        player_whoopie_plus_4.Play();
-                        break;
-                    case Keys.P:
-                        player_whoopie_plus_5.Play();
-                        break;
-                    case Keys.Back:
-                        player_bonk.Play();
-                        break;
-                    case Keys.Space:
-                        player_doom.Play();
-                        break;
-                    case Keys.Enter:
-                        player_typewriter_ding.Play();
-                        break;
-                    case Keys.Escape:
-                        player_NO.Play();
-                        break;
-                    case Keys.Tab:
-                        player_baby_gasp.Play();
-                        break;
-                    case Keys.OemMinus:
-                        player_boom.Play();
-                        break;
-                    /*case Keys.Oemplus:
-                        player_whonk.Play();
-                        break;*/
-                    case Keys.PrintScreen:
-                        player_camera.Play();
-                        break;
-                    case Keys.Pause:
-                        player_stop.Play();
-                        break;
-                    case Keys.Insert:
-                        player_gnome.Play();
-                        break;
-                    case Keys.Delete:
-                        player_splat.Play();
-                        break;
-                    case Keys.Home:
-                        player_rizz.Play();
-                        break;
-                    case Keys.End:
-                        player_boowomp.Play();
-                        break;
-                    case Keys.PageUp:
-                        player_meow.Play();
-                        break;
-                    case Keys.PageDown:
-                        player_bark.Play();
-                        break;
-                    case Keys.Add:
-                        player_pop.Play();
-                        break;
-                    case Keys.Subtract:
-                        player_oof.Play();
-                        break;
-                    case Keys.Multiply:
-                        player_tada.Play();
-                        break;
-                    case Keys.Divide:
-                        player_lego.Play();
-                        break;
-                    case Keys.Decimal: 
-                        player_smash.Play();
-                        break;
-                    case Keys.OemPipe:
-                        player_pipe.Play();
-                        break;
-                 }
-
-                //Make sound depending of number
-                if((int)keyId >= 48 && (int)keyId <= 57)
-                {
-                    int numToPlay = (int)keyId - 48;
-                    //Console.WriteLine("Pos: " + numToPlay);
-                    numberPlayers[numToPlay].Play();
-                }
-
-                //Make sound for function keys
-                else if ((int)keyId >= 112 && (int)keyId <= 123)
-                {
-                    int numToPlay = (int)keyId - 112;
-                    functionPlayers[numToPlay].Play();
-                }
-
-                //Make sound for directional keys
-                else if ((int)keyId >= 37 && (int)keyId <= 40)
-                {
-                    int numToPlay = (int)keyId - 37;
-                    directionalPlayers[numToPlay].Play();
-                }
-
-                //Make sound for numpad keys
-                else if ((int)keyId >= 96 && (int)keyId <= 105)
-                {
-                    int numToPlay = (int)keyId - 96;
-                    numpadPlayers[numToPlay].Play();
-                }
-
-                //RESEND LETTERS-------------------------------------------------------
-
-                //If it is a letter or number or directional or numpad
-                if ( ((int)keyId >= 48 && (int)keyId <= 57) || 
-                    ((int)keyId >= 65 && (int)keyId <= 90) ||
-                    ((int)keyId >= 112 && (int)keyId <= 123) ||
-                    ((int)keyId >= 37 && (int)keyId <= 40) ||
-                    ((int)keyId >= 96 && (int)keyId <= 105)
-                    )
-                {
-                    KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
-                    found.Unregister();
-                    sim.Keyboard.KeyPress((VirtualKeyCode)keyId);
-                    found.Register();
-                }
-                //Another kind of key
-                else
-                {
-                    KeyHandler found;
-                    Keys[] otherKeys = { Keys.OemPipe, Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Pause, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
-
-                    if(Array.Find(otherKeys, x => x == keyId) != 0)
+                    //Make sound depending of letter
+                    switch (keyId)
                     {
-                        String keyToSend = "";
+                        case Keys.Q:
+                        case Keys.A:
+                        case Keys.Z:
+                            if (!play_hidden)
+                            {
+                                player_whoopie_minus_4.Play();
+                            }
+                            break;
+                        case Keys.W:
+                        case Keys.S:
+                        case Keys.X:
+                            player_whoopie_minus_3.Play();
+                            break;
+                        case Keys.E:
+                        case Keys.D:
+                        case Keys.C:
+                            player_whoopie_minus_2.Play();
+                            break;
+                        case Keys.R:
+                        case Keys.F:
+                        case Keys.V:
+                            player_whoopie_minus_1.Play();
+                            break;
+                        case Keys.T:
+                        case Keys.G:
+                        case Keys.B:
+                            player_whoopie.Play();
+                            break;
+                        case Keys.Y:
+                        case Keys.H:
+                        case Keys.N:
+                            player_whoopie_plus_1.Play();
+                            break;
+                        case Keys.U:
+                        case Keys.J:
+                        case Keys.M:
+                            player_whoopie_plus_2.Play();
+                            break;
+                        case Keys.I:
+                        case Keys.K:
+                        case Keys.Oemcomma:
+                            player_whoopie_plus_3.Play();
+                            break;
+                        case Keys.O:
+                        case Keys.L:
+                        case Keys.OemPeriod:
+                            player_whoopie_plus_4.Play();
+                            break;
+                        case Keys.P:
+                            player_whoopie_plus_5.Play();
+                            break;
+                        case Keys.Back:
+                            player_bonk.Play();
+                            break;
+                        case Keys.Space:
+                            player_doom.Play();
+                            break;
+                        case Keys.Enter:
+                            player_typewriter_ding.Play();
+                            break;
+                        case Keys.Escape:
+                            player_NO.Play();
+                            break;
+                        case Keys.Tab:
+                            player_baby_gasp.Play();
+                            break;
+                        case Keys.OemMinus:
+                            player_boom.Play();
+                            break;
+                        /*case Keys.Oemplus:
+                            player_whonk.Play();
+                            break;*/
+                        case Keys.PrintScreen:
+                            player_camera.Play();
+                            break;
+                        case Keys.Pause:
+                            player_stop.Play();
+                            break;
+                        case Keys.Insert:
+                            player_gnome.Play();
+                            break;
+                        case Keys.Delete:
+                            player_splat.Play();
+                            break;
+                        case Keys.Home:
+                            player_rizz.Play();
+                            break;
+                        case Keys.End:
+                            player_boowomp.Play();
+                            break;
+                        case Keys.PageUp:
+                            player_meow.Play();
+                            break;
+                        case Keys.PageDown:
+                            player_bark.Play();
+                            break;
+                        case Keys.Add:
+                            player_pop.Play();
+                            break;
+                        case Keys.Subtract:
+                            player_oof.Play();
+                            break;
+                        case Keys.Multiply:
+                            player_tada.Play();
+                            break;
+                        case Keys.Divide:
+                            player_lego.Play();
+                            break;
+                        case Keys.Decimal:
+                            player_smash.Play();
+                            break;
+                        case Keys.OemPipe:
+                            player_pipe.Play();
+                            break;
+                    }
 
-                        switch (keyId)
-                        {
-                            //Handle space
-                            case Keys.Space:
-                                keyToSend = " ";
-                                break;
+                    //Make sound depending of number
+                    if ((int)keyId >= 48 && (int)keyId <= 57)
+                    {
+                        int numToPlay = (int)keyId - 48;
+                        //Console.WriteLine("Pos: " + numToPlay);
+                        numberPlayers[numToPlay].Play();
+                    }
 
-                            //Handle backspace
-                            case Keys.Back:
-                                keyToSend = "{BACKSPACE}";
-                                break;
+                    //Make sound for function keys
+                    else if ((int)keyId >= 112 && (int)keyId <= 123)
+                    {
+                        int numToPlay = (int)keyId - 112;
+                        functionPlayers[numToPlay].Play();
+                    }
 
-                            case Keys.Enter:
-                                keyToSend = "{ENTER}";
-                                break;
+                    //Make sound for directional keys
+                    else if ((int)keyId >= 37 && (int)keyId <= 40)
+                    {
+                        int numToPlay = (int)keyId - 37;
+                        directionalPlayers[numToPlay].Play();
+                    }
 
-                            case Keys.Oemcomma:
-                                keyToSend = ",";
-                                break;
+                    //Make sound for numpad keys
+                    else if ((int)keyId >= 96 && (int)keyId <= 105)
+                    {
+                        int numToPlay = (int)keyId - 96;
+                        numpadPlayers[numToPlay].Play();
+                    }
 
-                            case Keys.OemPeriod:
-                                keyToSend = ".";
-                                break;
+                    //RESEND LETTERS-------------------------------------------------------
 
-                            case Keys.Escape:
-                                keyToSend = "{ESC}";
-                                break;
-
-                            case Keys.Tab:
-                                keyToSend = "{TAB}";
-                                break;
-
-                            case Keys.Oemplus:
-                                keyToSend = "{+}";
-                                break;
-
-                            case Keys.OemMinus:
-                                keyToSend = "{-}";
-                                break;
-
-                            case Keys.PrintScreen:
-                                keyToSend = "{PRTSC}";
-                                break;
-
-                            case Keys.Pause:
-                                keyToSend = "{BREAK}";
-                                break;
-
-                            case Keys.Insert:
-                                keyToSend = "{INSERT}";
-                                break;
-
-                            case Keys.Delete:
-                                keyToSend = "{DELETE}";
-                                break;
-
-                            case Keys.Home:
-                                keyToSend = "{HOME}";
-                                break;
-
-                            case Keys.End:
-                                keyToSend = "{END}";
-                                break;
-
-                            case Keys.PageUp:
-                                keyToSend = "{PGUP}";
-                                break;
-
-                            case Keys.PageDown:
-                                keyToSend = "{PGDN}";
-                                break;
-
-                            case Keys.Add:
-                                keyToSend = "{ADD}";
-                                break;
-
-                            case Keys.Subtract:
-                                keyToSend = "{SUBTRACT}";
-                                break;
-
-                            case Keys.Multiply:
-                                keyToSend = "{MULTIPLY}";
-                                break;
-
-                            case Keys.Divide:
-                                keyToSend = "{DIVIDE}";
-                                break;
-
-                            case Keys.Decimal:
-                                keyToSend = ".";
-                                break;
-
-                            case Keys.OemPipe:
-                                keyToSend = "|";
-                                break;
-                        }
-
-                        found = keyHandlers.Find(x => x.key == (int)keyId);
+                    //If it is a letter or number or directional or numpad
+                    if (((int)keyId >= 48 && (int)keyId <= 57) ||
+                        ((int)keyId >= 65 && (int)keyId <= 90) ||
+                        ((int)keyId >= 112 && (int)keyId <= 123) ||
+                        ((int)keyId >= 37 && (int)keyId <= 40) ||
+                        ((int)keyId >= 96 && (int)keyId <= 105)
+                        )
+                    {
+                        KeyHandler found = keyHandlers.Find(x => x.key == (int)keyId);
                         found.Unregister();
-                        SendKeys.SendWait(keyToSend);
+                        sim.Keyboard.KeyPress((VirtualKeyCode)keyId);
                         found.Register();
                     }
+                    //Another kind of key
+                    else
+                    {
+                        KeyHandler found;
+                        Keys[] otherKeys = { Keys.OemPipe, Keys.Add, Keys.Subtract, Keys.Multiply, Keys.Divide, Keys.Insert, Keys.Delete, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.PrintScreen, Keys.Pause, Keys.Oemplus, Keys.OemMinus, Keys.Tab, Keys.Space, Keys.Enter, Keys.Back, Keys.Oemcomma, Keys.OemPeriod, Keys.Escape };
+
+                        if (Array.Find(otherKeys, x => x == keyId) != 0)
+                        {
+                            String keyToSend = "";
+
+                            switch (keyId)
+                            {
+                                //Handle space
+                                case Keys.Space:
+                                    keyToSend = " ";
+                                    break;
+
+                                //Handle backspace
+                                case Keys.Back:
+                                    keyToSend = "{BACKSPACE}";
+                                    break;
+
+                                case Keys.Enter:
+                                    keyToSend = "{ENTER}";
+                                    break;
+
+                                case Keys.Oemcomma:
+                                    keyToSend = ",";
+                                    break;
+
+                                case Keys.OemPeriod:
+                                    keyToSend = ".";
+                                    break;
+
+                                case Keys.Escape:
+                                    keyToSend = "{ESC}";
+                                    break;
+
+                                case Keys.Tab:
+                                    keyToSend = "{TAB}";
+                                    break;
+
+                                case Keys.Oemplus:
+                                    keyToSend = "{+}";
+                                    break;
+
+                                case Keys.OemMinus:
+                                    keyToSend = "{-}";
+                                    break;
+
+                                case Keys.PrintScreen:
+                                    keyToSend = "{PRTSC}";
+                                    break;
+
+                                case Keys.Pause:
+                                    keyToSend = "{BREAK}";
+                                    break;
+
+                                case Keys.Insert:
+                                    keyToSend = "{INSERT}";
+                                    break;
+
+                                case Keys.Delete:
+                                    keyToSend = "{DELETE}";
+                                    break;
+
+                                case Keys.Home:
+                                    keyToSend = "{HOME}";
+                                    break;
+
+                                case Keys.End:
+                                    keyToSend = "{END}";
+                                    break;
+
+                                case Keys.PageUp:
+                                    keyToSend = "{PGUP}";
+                                    break;
+
+                                case Keys.PageDown:
+                                    keyToSend = "{PGDN}";
+                                    break;
+
+                                case Keys.Add:
+                                    keyToSend = "{ADD}";
+                                    break;
+
+                                case Keys.Subtract:
+                                    keyToSend = "{SUBTRACT}";
+                                    break;
+
+                                case Keys.Multiply:
+                                    keyToSend = "{MULTIPLY}";
+                                    break;
+
+                                case Keys.Divide:
+                                    keyToSend = "{DIVIDE}";
+                                    break;
+
+                                case Keys.Decimal:
+                                    keyToSend = ".";
+                                    break;
+
+                                case Keys.OemPipe:
+                                    keyToSend = "|";
+                                    break;
+                            }
+
+                            found = keyHandlers.Find(x => x.key == (int)keyId);
+                            found.Unregister();
+                            SendKeys.SendWait(keyToSend);
+                            found.Register();
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
                 }
 
             }
